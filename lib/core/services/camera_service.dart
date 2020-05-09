@@ -1,19 +1,18 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/camera_command.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_battery_quantity.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_settings.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/start_session.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/start_view_finder.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/stop_view_finder.dart';
-import 'package:flutterinfluxdb/core/model/camera_response.dart';
-import 'package:flutterinfluxdb/core/services/camera_response_parser.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_command.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_battery_quantity.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_settings.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_session.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_view_finder.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/stop_view_finder.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/services/camera_response_parser.dart';
 import 'package:provider/provider.dart';
 
 class CameraService extends ChangeNotifier {

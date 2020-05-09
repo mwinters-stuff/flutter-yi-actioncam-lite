@@ -1,4 +1,4 @@
-# flutterinfluxdb
+# yi-actioncam-lite
 
 Flutter app for influxdb play
 

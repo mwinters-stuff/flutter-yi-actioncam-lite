@@ -1,13 +1,11 @@
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/camera_settings.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_battery_quantity.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_settings.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/start_session.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/start_view_finder.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/stop_view_finder.dart';
-import 'package:flutterinfluxdb/core/services/camera_service.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_settings.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_battery_quantity.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_settings.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_session.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_view_finder.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/stop_view_finder.dart';
+import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 

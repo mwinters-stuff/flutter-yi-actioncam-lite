@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_battery_quantity.dart';
-import 'package:flutterinfluxdb/core/services/camera_service.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_battery_quantity.dart';
+import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +40,6 @@ class BatteryIcon extends StatelessWidget {
         builder: (context, cameraService, widget) =>
             Consumer<GetBatteryQuantity>(
                 builder: (context, batteryClient, widget) {
-              var icon;
               if (cameraService.connected && batteryClient.batteryQuantity != null) {
                 if(batteryClient.adapterStatus) {
                   return IconButton(icon: Icon(

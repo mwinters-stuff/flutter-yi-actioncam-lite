@@ -1,9 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/camera_settings.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_settings.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/types/enums.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_settings.dart';
 import 'package:provider/provider.dart';
 
 class AutoPowerOff {

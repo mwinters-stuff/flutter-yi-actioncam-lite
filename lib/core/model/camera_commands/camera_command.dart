@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterinfluxdb/core/model/camera_response.dart';
-import 'package:flutterinfluxdb/core/model/error_code.dart';
-import 'package:flutterinfluxdb/core/model/yi_camera_error.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/model/error_code.dart';
+import 'package:flutterYiActionCameraLite/core/model/yi_camera_error.dart';
 
 abstract class CameraCommand extends ChangeNotifier{
   final int _commandId;

@@ -1,4 +1,4 @@
-package nz.winters.flutterinfluxdb;
+package nz.example.flutterYiActionCameraLite;
 
 import io.flutter.embedding.android.FlutterActivity;
 

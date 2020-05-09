@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/camera_settings.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_battery_quantity.dart';
-import 'package:flutterinfluxdb/core/model/camera_commands/get_settings.dart';
-import 'package:flutterinfluxdb/core/services/camera_service.dart';
-import 'package:flutterinfluxdb/ui/battery_icon.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_settings.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_settings.dart';
+import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
+import 'package:flutterYiActionCameraLite/ui/battery_icon.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 

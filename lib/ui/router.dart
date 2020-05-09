@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterinfluxdb/core/utils/constants.dart';
-import 'package:flutterinfluxdb/ui/home_screen.dart';
-import 'package:flutterinfluxdb/ui/splash_screen.dart';
+import 'package:flutterYiActionCameraLite/core/utils/constants.dart';
+import 'package:flutterYiActionCameraLite/ui/home_screen.dart';
+import 'package:flutterYiActionCameraLite/ui/splash_screen.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {

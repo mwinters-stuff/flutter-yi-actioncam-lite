@@ -4,7 +4,7 @@
 # changes.
 
 # Executable name.
-BINARY_NAME=flutterinfluxdb
+BINARY_NAME=flutter-yi-action-cam-lite
 # Any extra source files to build.
 EXTRA_SOURCES=
 # Paths of any additional libraries to be bundled in the output directory.

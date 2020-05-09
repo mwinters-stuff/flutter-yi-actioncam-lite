@@ -1,5 +1,5 @@
 #include "window_configuration.h"
 
-const char *kFlutterWindowTitle = "flutterinfluxdb";
-const unsigned int kFlutterWindowWidth = 800;
-const unsigned int kFlutterWindowHeight = 600;
+const char *kFlutterWindowTitle = "Yi Action Camera Lite";
+const unsigned int kFlutterWindowWidth = 1024;
+const unsigned int kFlutterWindowHeight = 768;

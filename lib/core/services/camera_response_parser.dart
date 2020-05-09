@@ -1,11 +1,9 @@
 
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutterinfluxdb/core/model/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
 
 class CameraResponseParser {
 
-  List<CameraResponse> _responses;
   String _string = '';
 
   CameraResponseParser();

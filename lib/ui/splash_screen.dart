@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutterinfluxdb/core/utils/constants.dart';
-import 'package:provider/provider.dart';
+import 'package:flutterYiActionCameraLite/core/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
