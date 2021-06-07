@@ -1,7 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_settings.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+
 import 'package:provider/provider.dart';
 
 class AutoPowerOff {

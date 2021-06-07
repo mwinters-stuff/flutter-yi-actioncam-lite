@@ -1,59 +1,51 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/camera_connected_event.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/camera_connected_repository.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/camera_connected_state.dart';
+import 'package:flutterYiActionCameraLite/core/bloc/bloc.dart';
+import 'package:flutterYiActionCameraLite/core/bloc/camera_service_event.dart';
+import 'package:flutterYiActionCameraLite/core/bloc/camera_service_state.dart';
+import 'package:flutterYiActionCameraLite/core/bloc/start_session_bloc.dart';
 import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class CameraConnectedBloc extends Bloc<CameraConnectedEvent, CameraConnectedState> {
-  final CameraConnectedRepository cameraConnectedRepository;
+class CameraServiceBloc extends Bloc<CameraServiceEvent, CameraServiceState> {
+  final CameraService cameraService;
 
-  CameraConnectedBloc({@required this.cameraConnectedRepository}) : assert(cameraConnectedRepository != null);
-
-  @override
-  CameraConnectedState get initialState => InitialCameraConnectedState();
+  CameraServiceBloc({@required this.cameraService}) : assert(cameraService != null);
 
   @override
-  Stream<CameraConnectedState> mapEventToState(
-    CameraConnectedEvent event,
+  CameraServiceState get initialState => InitialState();
+
+  @override
+  Stream<CameraServiceState> mapEventToState(
+    CameraServiceEvent event,
   ) async* {
     if(event is AppStarted){
       await Future.delayed(Duration(seconds: 2));
-      yield DisconnectedCameraConnectedState();
+      yield DisconnectedState();
     }
 
-//    if(event is Connected){
-//      cameraConnectedRepository.cameraService = event.cameraService;
-//      yield ConnectedCameraConnectedState();
-//    }
-
     if(event is Connect){
-      yield ConnectingCameraConnectedState();
-      CameraService cameraService = CameraService();
+      yield ConnectingState();
+//      CameraService cameraService = CameraService();
       await Future.delayed(Duration(seconds: 2));
       if(await cameraService.connect(event.context)) {
-        cameraConnectedRepository.cameraService = cameraService;
-        yield ConnectedCameraConnectedState();
+        yield ConnectedState();
       }else{
-        cameraConnectedRepository.cameraService = null;
-        yield DisconnectedCameraConnectedState();
+        yield DisconnectedState();
       }
     }
 
 
     if(event is Disconnect){
-      yield DisconnectingCameraConnectedState();
-      cameraConnectedRepository.cameraService?.disconnect();
-      cameraConnectedRepository.cameraService = null;
+      yield DisconnectingState();
+      cameraService.disconnect();
+      BlocProvider.of<StartSessionBloc>(event.context).add(StartSessionClosedEvent());
+      BlocProvider.of<BatteryQuantityBloc>(event.context).add(BatteryQuantityClosedEvent());
       await Future.delayed(Duration(seconds: 2));
-      yield DisconnectedCameraConnectedState();
-    }
-
-    if(event is Disconnected){
-      cameraConnectedRepository.cameraService = null;
-      yield DisconnectedCameraConnectedState();
+      yield DisconnectedState();
     }
   }
 }

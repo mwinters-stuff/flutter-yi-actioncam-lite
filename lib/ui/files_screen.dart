@@ -1,25 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_settings.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_settings.dart';
-import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_file_list.dart';
+import 'package:flutterYiActionCameraLite/ui/base_page.dart';
+import 'package:flutterYiActionCameraLite/ui/base_screen.dart';
+import 'package:flutterYiActionCameraLite/ui/base_widget.dart';
 import 'package:flutterYiActionCameraLite/ui/battery_icon.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SettingsScreen extends StatelessWidget {
+class FilesScreen extends BasePage{
+  static const RouteName = '/filesScreen';
+
   @override
-  Widget build(BuildContext context) {
-    return Consumer<CameraService>(
-        builder: (context, client, widget) => Scaffold(
-          appBar: AppBar(title: Text('Yi Camera'), actions: <Widget>[
-          ]),
-          backgroundColor: Colors.white,
-          body: Consumer<ActionCameraSettings>(
-              builder: (context, settings, widget) => ListView.builder(
-                itemCount: settings.configWidgets.length,
-                itemBuilder: (BuildContext context, int index) =>
-                settings.configWidgets[index],
-              )),
-        ));
+  State<StatefulWidget> createState() => _FilesScreenState();
+
+}
+
+
+class _FilesScreenState extends BaseState<FilesScreen> with BaseScreen {
+
+  @override
+  Widget body(BuildContext context) {
+    return Text('bob');
+    // BaseWidget<GetFileList>(
+//        model: Provider.of<GetFileList>(context),
+//        onModelReady: (model) => model.getFiles(context),
+//        builder: (context, model, _) => ListView.builder(
+//            itemCount: model.files.length,
+//            itemBuilder: (BuildContext context, int index) => model.files[index].getListWidget(context)
+//            ));
+  }
+
+  @override
+  List<Widget> actions(BuildContext context) {
+    // TODO: implement actions
+    return [
+      BatteryIcon(),
+    ];
+  }
+
+
+  @override
+  String screenName() {
+    return 'Yi Camera - Files';
   }
 }

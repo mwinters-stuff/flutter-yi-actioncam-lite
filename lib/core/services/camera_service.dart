@@ -5,25 +5,28 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutterYiActionCameraLite/core/bloc/bloc.dart';
 import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_command.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_battery_quantity.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/battery_quantity.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_file_list.dart';
 import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_settings.dart';
 import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_session.dart';
 import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_view_finder.dart';
 import 'package:flutterYiActionCameraLite/core/model/camera_commands/stop_view_finder.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
 import 'package:flutterYiActionCameraLite/core/services/camera_response_parser.dart';
-import 'package:provider/provider.dart';
+import 'package:flutterYiActionCameraLite/core/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CameraService extends ChangeNotifier {
+class CameraService {
   Socket _socket;
   Timer _keepAliveTimer;
   int _heartBeat = 0;
   int _sessionId;
   String _rtspUrl = '';
 
-  StreamSubscription<CameraResponse> _streamSubscription;
-  StreamController<CameraResponse> _responseStreamController;
+//  StreamSubscription<CameraResponse> _streamSubscription;
+//  StreamController<CameraResponse> _responseStreamController;
 
   String get rtsp => _rtspUrl;
 
@@ -35,71 +38,58 @@ class CameraService extends ChangeNotifier {
   CameraService();
 
 
-  void connect(BuildContext buildContext) {
-    Socket.connect('192.168.42.1', 7878).then((socket) {
-      _responseStreamController =  StreamController<CameraResponse>();
-      _streamSubscription = _responseStreamController.stream.listen((event) => _handleResponse(buildContext, event));
-      _socket = socket;
-      _socket.listen((data) => _handleData(data, buildContext),
-          onDone: _handleDone, onError: _handleError, cancelOnError: false);
-
-      var startSession = Provider.of<StartSession>(buildContext, listen: false);
-      startSession.update(success: (cameraCommand) {
-        _sessionId = (cameraCommand as StartSession).sessionId;
-        _rtspUrl = (cameraCommand as StartSession).rtspUrl;
-        notifyListeners();
-        _getBatteryQuantity(buildContext);
-        _getSettings(buildContext);
-      }, fail: (cameraCommand, error) {
-        print("StartSession Failed $error.code $error.detail");
-        _streamSubscription?.cancel();
-        _streamSubscription = null;
-        _responseStreamController?.close();
-        _responseStreamController = null;
-        _socket.close();
-        _socket = null;
-        notifyListeners();
-      });
-      send(startSession);
-      notifyListeners();
-    }).catchError((error) {
-      print('connect error $error');
-      _streamSubscription?.cancel();
-      _streamSubscription = null;
-      _responseStreamController?.close();
-      _responseStreamController = null;
-      _socket = null;
-      notifyListeners();
+  Future<bool> connect(BuildContext context) async {
+    _keepAliveTimer?.cancel();
+    return Socket.connect(Constants.CAMERA_ADDRESS, Constants.CAMERA_PORT, timeout: Duration(seconds: 2)).then((value)  {
+      _socket = value;
+      _socket.listen((data) => _handleData(context, data),
+          onDone: () => _handleDone(context),
+          onError: (error, trace) =>  _handleError(error, trace, context),
+      cancelOnError: true);
+      send(StartSession());
+      return true;
+    }).catchError( (e){
+      print("catchConnectError ${e.message}");
+      return false;
     });
+
   }
 
-  void _handleData(Uint8List data, BuildContext context) {
+  void _handleData(BuildContext context, Uint8List data) {
     String received = new String.fromCharCodes(data).trim();
-//    print(received);
+    print("Received $received");
     _responseParser.parse(received, (cameraResponse) {
-      if (cameraResponse.isNotification) {
-        _internalProcessNotification(context, cameraResponse);
-      } else {
-        _responseStreamController.sink.add(cameraResponse);
+      if(cameraResponse.valid) {
+        if (cameraResponse.isNotification) {
+           if(cameraResponse.messageId == 1793) {
+             _sessionId = cameraResponse.data['token'];
+           }else {
+             _internalProcessNotification(context, cameraResponse);
+           }
+        }else{
+          _handleResponse(context, cameraResponse);
+        }
       }
     });
   }
 
-  void _handleDone() {
+  void _handleDone(BuildContext context) {
     print("done");
-    _streamSubscription?.cancel();
-    _streamSubscription = null;
-    _responseStreamController?.close();
-    _responseStreamController = null;
+
 
     _keepAliveTimer?.cancel();
     _heartBeat = 0;
     _socket = null;
 
-    notifyListeners();
+//    BlocProvider.of<CameraServiceBloc>(context).add(Disconnect(context: context));
+
   }
 
-  void _handleError(error, StackTrace trace) {}
+  void _handleError( error, StackTrace trace, context) {
+    print("_handleError $error");
+    _keepAliveTimer?.cancel();
+    BlocProvider.of<CameraServiceBloc>(context).add(Disconnect(context: context));
+  }
 
   void send(CameraCommand cameraCommand) {
     _commands[cameraCommand.commandId] = cameraCommand;
@@ -116,6 +106,8 @@ class CameraService extends ChangeNotifier {
   }
 
   void disconnect() {
+    _keepAliveTimer?.cancel();
+    _keepAliveTimer = null;
     _socket?.close();
   }
 
@@ -124,17 +116,13 @@ class CameraService extends ChangeNotifier {
     if (cameraResponse.messageId != 7) {
       return;
     }
-    print("Camera Notification $cameraResponse.notificationType");
+    print("Camera Notification ${cameraResponse.notificationType}");
     switch (cameraResponse.notificationType) {
       case 'battery':
-        Provider
-            .of<GetBatteryQuantity>(context, listen: false)
-            ?.batteryQuantity = int.parse(cameraResponse.data['param']);
+        BlocProvider.of<BatteryQuantityBloc>(context).add(BatteryPercentEvent(percent: int.parse(cameraResponse.data['param'])));
         break;
       case 'adapter_status':
-        Provider
-            .of<GetBatteryQuantity>(context, listen: false)
-            ?.adapterStatus = cameraResponse.data['param'] == '1';
+        BlocProvider.of<BatteryQuantityBloc>(context).add(BatteryAdapterEvent(adapter: cameraResponse.data['param'] == '1'));
         break;
       case "start_video_record":
         {
@@ -187,14 +175,9 @@ class CameraService extends ChangeNotifier {
     }
   }
 
-  void _getBatteryQuantity(BuildContext buildContext) {
-    print("getBatteryquantity");
-    send(Provider.of<GetBatteryQuantity>(buildContext, listen: false));
-  }
-
-  void _getSettings(BuildContext buildContext) {
+  void getSettings(BuildContext buildContext) {
     print("getSettings");
-    send(Provider.of<GetSettings>(buildContext, listen: false));
+    send(GetSettings());
   }
 
   void _handleResponse(BuildContext context, CameraResponse response) {
@@ -203,22 +186,38 @@ class CameraService extends ChangeNotifier {
       _commands.remove(response.messageId);
       print("handle message received  ${cameraCommand.commandId}");
       _keepAliveTimer?.cancel();
-      cameraCommand.onSuccess(context, response);
-      _keepAliveTimer = Timer.periodic(Duration(seconds: 5), (timer)
-      {
-        sendData({'token': _sessionId, 'heartbeat': ++_heartBeat});
+      cameraCommand.onSuccess(response).then((ok) {
+        _keepAliveTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+          sendData({'token': _sessionId, 'heartbeat': ++_heartBeat});
+        });
+        if(ok) {
+          if (cameraCommand is StartSession) {
+            BlocProvider.of<StartSessionBloc>(context).add(StartSessionDataEvent(sessionId: cameraCommand.sessionId, rtspUrl: cameraCommand.rtspUrl));
+            _sessionId = cameraCommand.sessionId;
+            send(BatteryQuantity());
+          }
+          if (cameraCommand is BatteryQuantity) {
+            BlocProvider.of<BatteryQuantityBloc>(context).add(BatteryPercentAdapterEvent(percent: cameraCommand.batteryQuantity, adapter: cameraCommand.adapterStatus));
+          }
+        }
+
       });
     }
   }
 
   void startViewFinder(BuildContext context){
     print("startViewFinder");
-    send(Provider.of<StartViewFinder>(context, listen: false));
+    send(StartViewFinder());
   }
 
   void stopViewFinder(BuildContext context){
     print("startViewFinder");
-    send(Provider.of<StopViewFinder>(context, listen: false));
+    send(StopViewFinder());
+  }
+
+  void getFileList(BuildContext context){
+    print("getFileList");
+    send(GetFileList());
   }
 
 }

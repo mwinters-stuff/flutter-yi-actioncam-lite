@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutterYiActionCameraLite/core/utils/constants.dart';
+import 'package:flutterYiActionCameraLite/ui/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const RouteName = '/splashScreen';
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -11,19 +13,19 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final int splashDuration = 1;
 //  final AuthenticationService _authenticationService = locator<AuthenticationService>();
-  Timer _timer;
+//  Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer(Duration(seconds: splashDuration), () async{
-      await Navigator.of(context).pushNamedAndRemoveUntil(Constants.homeScreenRouteName, (_) => false);
-    });
+//    _timer = Timer(Duration(seconds: splashDuration), () async{
+//      await Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.RouteName, (_) => false);
+//    });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+//    _timer.cancel();
     super.dispose();
   }
 

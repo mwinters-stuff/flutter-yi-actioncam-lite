@@ -1,5 +1,9 @@
 
 class Constants{
-  static const splashScreenRouteName = '/splashScreen';
-  static const homeScreenRouteName = '/homeScreen';
+  static const String CAMERA_ADDRESS = '192.168.42.1';
+  static const int CAMERA_PORT = 7878;
+
+
+
+
 }

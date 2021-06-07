@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_battery_quantity.dart';
-import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
+import 'package:flutterYiActionCameraLite/core/bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 class BatteryIcon extends StatelessWidget {
   final batteryIcons = <IconData>[
@@ -36,21 +34,21 @@ class BatteryIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CameraService>(
-        builder: (context, cameraService, widget) =>
-            Consumer<GetBatteryQuantity>(
-                builder: (context, batteryClient, widget) {
-              if (cameraService.connected && batteryClient.batteryQuantity != null) {
-                if(batteryClient.adapterStatus) {
-                  return IconButton(icon: Icon(
-                      chargingIcons[batteryClient.batteryQuantity ~/ 10]),
-                      onPressed: () => cameraService.send(batteryClient));
-                }else{
-                  return IconButton(icon: Icon(batteryIcons[batteryClient.batteryQuantity ~/ 10]), onPressed: () => cameraService.send(batteryClient));
-                }
-              } else {
-                return IconButton(icon: Icon(MdiIcons.batteryOffOutline), onPressed: null);// Icon(MdiIcons.battery);
-              }
-            }));
+    return BlocBuilder<BatteryQuantityBloc, BatteryQuantityState>(
+      builder: (context, state){
+        if(state is BatteryPercentAdapterState){
+          if (state.adapter) {
+            return IconButton(icon: Icon(chargingIcons[state.percent ~/ 10]), onPressed:() => _onPressed(context));
+          } else {
+            return IconButton(icon: Icon(batteryIcons[state.percent ~/ 10]), onPressed: () => _onPressed(context));
+          }
+        }else{
+          return IconButton(icon: Icon(MdiIcons.batteryOffOutline), onPressed: null);
+        }
+      });
+  }
+
+  void _onPressed(BuildContext context) {
+
   }
 }

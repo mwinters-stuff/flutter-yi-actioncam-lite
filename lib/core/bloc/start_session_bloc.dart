@@ -10,6 +10,11 @@ class StartSessionBloc extends Bloc<StartSessionEvent, StartSessionState> {
   Stream<StartSessionState> mapEventToState(
     StartSessionEvent event,
   ) async* {
-    // TODO: Add Logic
+    if(event is StartSessionDataEvent){
+      yield StartSessionDataState(sessionId: event.sessionId, rtspUrl: event.rtspUrl);
+    }
+    if(event is StartSessionClosedEvent){
+      yield StartSessionClosedState();
+    }
   }
 }

@@ -1,26 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-abstract class CameraConnectedState extends Equatable {
-  const CameraConnectedState();
+abstract class CameraServiceState extends Equatable {
+  const CameraServiceState();
   @override
   List<Object> get props => [];
 }
 
-class InitialCameraConnectedState extends CameraConnectedState {
+class InitialState extends CameraServiceState {
 }
 
-class ConnectedCameraConnectedState extends CameraConnectedState {
-
-}
-
-class ConnectingCameraConnectedState extends CameraConnectedState {
+class ConnectedState extends CameraServiceState {
 
 }
 
-class DisconnectingCameraConnectedState extends CameraConnectedState {
+class ConnectingState extends CameraServiceState {
 
 }
 
-class DisconnectedCameraConnectedState extends CameraConnectedState {
+class DisconnectingState extends CameraServiceState {
+
+}
+
+class DisconnectedState extends CameraServiceState {
 
 }

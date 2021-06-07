@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_command.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
-import 'package:flutterYiActionCameraLite/core/model/yi_camera_error.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/yi_camera_error.dart';
 
 class StartSession extends CameraCommand {
-  String _rtspUrl;
+  static const int COMMAND_ID = 257;
+  String rtspUrl;
+  int sessionId;
 
-  int _sessionId;
-
-  int get sessionId => _sessionId;
-
-  String get rtspUrl => _rtspUrl;
-
-  StartSession() : super(257);
+  StartSession() : super(COMMAND_ID);
 
   @override
-  YICameraSDKError onChildSuccess(BuildContext buildContext,CameraResponse response) {
-    _sessionId = response.data['param'];
+  YICameraSDKError onChildSuccess(CameraResponse response) {
+    sessionId = response.data['param'];
     if (response.data.containsKey("rtsp")) {
-      _rtspUrl = response.data["rtsp"];
+      rtspUrl = response.data["rtsp"];
     }
-    notifyListeners();
+    assert(sessionId != null && rtspUrl != null);
     return null;
   }
+
+  StartSession.data(this.rtspUrl, this.sessionId): super(COMMAND_ID);
+
+
 }

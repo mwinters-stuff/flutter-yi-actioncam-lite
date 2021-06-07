@@ -31,11 +31,15 @@ dependencies:
 
   provider: ^4.0.5
   material_design_icons_flutter: ^4.0.5145
-
+  transparent_image: ^1.0.0
+  flutter_bloc: ^4.0.0
+  equatable: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  bloc_test: ^5.1.0
+  mockito: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

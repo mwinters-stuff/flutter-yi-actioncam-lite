@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_command.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
-import 'package:flutterYiActionCameraLite/core/model/error_code.dart';
-import 'package:flutterYiActionCameraLite/core/model/yi_camera_error.dart';
+import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/others.dart';
+import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutterYiActionCameraLite/core/services/services.dart';
+import 'package:provider/provider.dart';
 
-class GetBatteryQuantity extends CameraCommand {
-  int _batteryQuantity;
+class GetFileList extends CameraCommand {
+  List _files = List<CameraFile>();
+
+  List get files => _files;
 
   bool _adapterStatus = false;
 
@@ -13,27 +16,40 @@ class GetBatteryQuantity extends CameraCommand {
 
   set adapterStatus(bool value) {
     _adapterStatus = value;
-    notifyListeners();
   }
 
-  int get batteryQuantity => _batteryQuantity;
 
-  set batteryQuantity(int value) {
-    _batteryQuantity = value;
-    notifyListeners();
-  }
-
-  GetBatteryQuantity() : super(13);
+  GetFileList() : super(1282);
 
   @override
-  YICameraSDKError onChildSuccess(BuildContext buildContext, CameraResponse response) {
-    if (response.data['type'] != 'battery' && response.data['type'] != 'adapter') {
-      return new YICameraSDKError(ErrorCode.InvalidResponse);
-    }
-    _adapterStatus = response.data['type'] == 'adapter';
-    batteryQuantity = response.data['param'];
+  Map<String, dynamic> getData() {
+    var obj = super.getData();
+    obj['param'] = '/tmp/fuse_d/DCIM/100MEDIA';
+    return obj;
+  }
 
-    print("GetBatteryQuantity: $_batteryQuantity");
+  var fileSizeAndTimePattern = RegExp(r"^(\d+) byte\|(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d)$");
+
+  @override
+  YICameraSDKError onChildSuccess(CameraResponse response) {
+    print(response.data);
+    _files.clear();
+    var array = response.data['listing'];
+    array.forEach((i) {
+      var filename = i.keys.first;
+       Iterable<RegExpMatch> matches =  fileSizeAndTimePattern.allMatches(i.values.first);
+        matches.forEach((element) {
+          var size = element.group(1);
+          var time = element.group(2);
+          CameraFile cameraFile = CameraFile(filename, int.parse(size), DateTime.parse(time));
+          print(cameraFile.toString());
+          files.add(cameraFile);
+        });
+    });
     return null;
+  }
+
+  getFiles(BuildContext context) {
+    Provider.of<CameraService>(context, listen: false).getFileList(context);
   }
 }

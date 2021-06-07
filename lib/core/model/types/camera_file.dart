@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/utils/constants.dart';
 import 'package:flutterYiActionCameraLite/ui/image_preview_screen.dart';
 
 class CameraFile {

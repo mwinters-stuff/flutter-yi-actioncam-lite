@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
-import 'package:flutterYiActionCameraLite/core/model/error_code.dart';
-import 'package:flutterYiActionCameraLite/core/model/yi_camera_error.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/error_code.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/yi_camera_error.dart';
 
-abstract class CameraCommand extends ChangeNotifier{
+abstract class CameraCommand{
   final int _commandId;
 
   int get commandId => _commandId;
@@ -23,24 +23,28 @@ abstract class CameraCommand extends ChangeNotifier{
     return obj;
   }
 
-  YICameraSDKError onChildSuccess(final BuildContext context, final CameraResponse response);
+  YICameraSDKError onChildSuccess(final CameraResponse response);
 
-  void onSuccess(final BuildContext context, final CameraResponse response) async {
+  Future<bool> onSuccess(final CameraResponse response) async {
     YICameraSDKError error;
+    bool result = true;
     final int rval = response.data['rval'];
     if (rval != 0) {
       error = YICameraSDKError(ErrorCode.CommandFailed, subError: YICameraSDKError(rval, subError: YICameraSDKError(ErrorCode.convertFirmwareError(rval))));
+      result = false;
     } else {
-      error = onChildSuccess(context, response);
+      error = onChildSuccess(response);
     }
     if (error != null) {
       if(_fail != null) {
         _fail(this, error);
       }
+      result = false;
     }
     if(_success != null) {
       _success(this);
     }
+    return result;
   }
 
 }

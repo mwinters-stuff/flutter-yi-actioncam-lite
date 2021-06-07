@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_command.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
-import 'package:flutterYiActionCameraLite/core/model/error_code.dart';
-import 'package:flutterYiActionCameraLite/core/model/yi_camera_error.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/error_code.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/yi_camera_error.dart';
 
-class GetBatteryQuantity extends CameraCommand {
+class BatteryQuantity extends CameraCommand {
   static const int COMMAND_ID = 13;
   int batteryQuantity;
   bool adapterStatus = false;
 
-  GetBatteryQuantity() : super(COMMAND_ID);
+  BatteryQuantity() : super(COMMAND_ID);
 
   @override
   YICameraSDKError onChildSuccess(CameraResponse response) {
@@ -19,9 +19,9 @@ class GetBatteryQuantity extends CameraCommand {
     adapterStatus = response.data['type'] == 'adapter';
     batteryQuantity = response.data['param'];
 
-    print("GetBatteryQuantity: $batteryQuantity $adapterStatus");
+    print("BatteryQuantity: $batteryQuantity $adapterStatus");
     return null;
   }
 
-  GetBatteryQuantity.values(this.batteryQuantity, this.adapterStatus) : super(COMMAND_ID);
+  BatteryQuantity.values(this.batteryQuantity, this.adapterStatus) : super(COMMAND_ID);
 }

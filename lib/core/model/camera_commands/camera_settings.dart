@@ -1,34 +1,10 @@
 
 import 'dart:collection';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/ISO.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/auto_power_off.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/buzzer_volume.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/camera_status.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/capture_mode.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/colour_mode.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/enums.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/exposure_value.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/field_of_view.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/led_mode.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/metering_mode.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/photo_resolution.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/quality.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/record_mode.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/screen_auto_lock.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/sharpness.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/shutter_time.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/text_ro_text.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/timelapse_photo_interval.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/timelapse_video_duration.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/timelapse_video_interval.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/timestamp.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/toggle_state.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/video_resolution.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/video_rotate_mode.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/video_standard.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/types/white_balance.dart';
+import 'package:flutter/material.dart';
+import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutterYiActionCameraLite/core/services/services.dart';
+import 'package:provider/provider.dart';
 
 class ActionCameraSettings extends ChangeNotifier{
 
@@ -179,6 +155,7 @@ class ActionCameraSettings extends ChangeNotifier{
   List<Widget> get configWidgets => _configWidgets;
 
   void parseSettingValue(final String settingName, final String settingValue) {
+    print("Setting \'$settingName\': \'$settingValue\'");
     switch (settingName) {
       case AppStatusSettingName:
         status = CameraStatus.parse(settingValue);
@@ -354,7 +331,6 @@ class ActionCameraSettings extends ChangeNotifier{
         break;
       default:
         otherSettings[settingName] = settingValue;
-        print("Other setting $settingName with value $settingValue");
         _configWidgets.add(TextROWidget(settingName,settingValue));
     }
   }
@@ -388,6 +364,10 @@ class ActionCameraSettings extends ChangeNotifier{
     _configWidgets.clear();
     otherSettings.clear();
     notifyListeners();
+  }
+
+  getSettings(BuildContext context) {
+    Provider.of<CameraService>(context, listen: false).getSettings(context);
   }
 
 

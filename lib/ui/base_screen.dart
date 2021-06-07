@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/base_page.dart';
+import 'package:flutterYiActionCameraLite/ui/app_drawer.dart';
+import 'package:flutterYiActionCameraLite/ui/base_page.dart';
+
 
 mixin BaseScreen<Page extends BasePage> on BaseState<Page> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -10,19 +12,17 @@ mixin BaseScreen<Page extends BasePage> on BaseState<Page> {
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text(screenName()),
-          actions: actions(context)
+          actions: actions(context),
         ),
+        drawer: AppDrawer(),
         backgroundColor: Colors.white,
-        bottomNavigationBar: bottomNavigationBar(context),
-        body: body(context));
+        body: body(context),
+    bottomSheet: bottomSheet(context));
   }
 
   Widget body(BuildContext context);
 
   List<Widget> actions(BuildContext context);
 
-  BottomNavigationBar bottomNavigationBar(BuildContext context);
-
-
-
+  Widget bottomSheet(BuildContext context) => null;
 }

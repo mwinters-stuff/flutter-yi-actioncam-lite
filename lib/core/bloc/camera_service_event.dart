@@ -3,16 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
 
-abstract class CameraConnectedEvent extends Equatable {
-  const CameraConnectedEvent();
+abstract class CameraServiceEvent extends Equatable {
+  const CameraServiceEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class AppStarted extends CameraConnectedEvent {}
+class AppStarted extends CameraServiceEvent {}
 
-class Connected extends CameraConnectedEvent {
+class Connected extends CameraServiceEvent {
   final CameraService cameraService;
 
   const Connected({@required this.cameraService});
@@ -24,7 +24,7 @@ class Connected extends CameraConnectedEvent {
   String toString() => 'Connected';
 }
 
-class Connect extends CameraConnectedEvent {
+class Connect extends CameraServiceEvent {
   final BuildContext context;
   const Connect({@required this.context});
 
@@ -35,8 +35,14 @@ class Connect extends CameraConnectedEvent {
   String toString() => 'Connect';
 }
 
-//class Connecting extends CameraConnectedEvent {}
+class Disconnect extends CameraServiceEvent {
+  final BuildContext context;
+  Disconnect({@required this.context}) : assert(context != null);
 
-class Disconnect extends CameraConnectedEvent {}
+  @override
+  List<Object> get props => [context];
 
-class Disconnected extends CameraConnectedEvent {}
+  @override
+  String toString() => 'Disconnect';
+
+}

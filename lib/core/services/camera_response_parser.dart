@@ -1,6 +1,6 @@
 
 
-import 'package:flutterYiActionCameraLite/core/model/camera_response.dart';
+import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
 
 class CameraResponseParser {
 
@@ -35,7 +35,8 @@ class CameraResponseParser {
         var validJsonString = _string.substring(0, i + 1);
         _string = _string.substring(i + 1);
         print("parse result = $validJsonString");
-        callback(CameraResponse(validJsonString));
+        var response = CameraResponse(validJsonString);
+        callback(response);
         return true;
       }
     }
