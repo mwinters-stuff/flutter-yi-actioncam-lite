@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
+import 'package:flutter_yi_actioncam_lite/core/services/camera_service.dart';
 
 abstract class CameraServiceEvent extends Equatable {
   const CameraServiceEvent();
@@ -44,5 +44,4 @@ class Disconnect extends CameraServiceEvent {
 
   @override
   String toString() => 'Disconnect';
-
 }

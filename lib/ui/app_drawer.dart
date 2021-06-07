@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/bloc.dart';
-import 'package:flutterYiActionCameraLite/ui/files_screen.dart';
-import 'package:flutterYiActionCameraLite/ui/settings_screen.dart';
+import 'package:flutter_yi_actioncam_lite/core/bloc/bloc.dart';
+import 'package:flutter_yi_actioncam_lite/ui/files_screen.dart';
+import 'package:flutter_yi_actioncam_lite/ui/settings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CameraServiceBloc, CameraServiceState>(builder: (context, cameraState) =>
-            Drawer(
+    return BlocBuilder<CameraServiceBloc, CameraServiceState>(
+        builder: (context, cameraState) => Drawer(
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
@@ -27,7 +27,8 @@ class AppDrawer extends StatelessWidget {
                     title: Text('Files'),
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, FilesScreen.RouteName);
+                      Navigator.pushReplacementNamed(
+                          context, FilesScreen.RouteName);
                     },
                   ),
                   ListTile(
@@ -35,7 +36,8 @@ class AppDrawer extends StatelessWidget {
                     title: Text('Settings'),
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, SettingsScreen.RouteName);
+                      Navigator.pushReplacementNamed(
+                          context, SettingsScreen.RouteName);
                     },
                   )
                 ],

@@ -1,24 +1,21 @@
-
-
-import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/camera_response.dart';
 
 class CameraResponseParser {
-
   String _string = '';
 
   CameraResponseParser();
 
-  void parse(String data, void Function(CameraResponse cameraResponse) callback){
+  void parse(
+      String data, void Function(CameraResponse cameraResponse) callback) {
     _string += data;
-    while(_string.isNotEmpty) {
-      if(!_parseString(callback)){
+    while (_string.isNotEmpty) {
+      if (!_parseString(callback)) {
         break;
       }
     }
-
   }
 
-  bool _parseString(void Function(CameraResponse cameraResponse) callback){
+  bool _parseString(void Function(CameraResponse cameraResponse) callback) {
     if (_string[0] != '{') {
       _string = '';
     }
@@ -31,7 +28,7 @@ class CameraResponseParser {
       } else if (ch == '}') {
         --braceCount;
       }
-      if(braceCount == 0 && i > 1){
+      if (braceCount == 0 && i > 1) {
         var validJsonString = _string.substring(0, i + 1);
         _string = _string.substring(i + 1);
         print("parse result = $validJsonString");

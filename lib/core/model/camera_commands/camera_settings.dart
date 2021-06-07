@@ -1,13 +1,11 @@
-
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
-import 'package:flutterYiActionCameraLite/core/services/services.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/services/services.dart';
 import 'package:provider/provider.dart';
 
-class ActionCameraSettings extends ChangeNotifier{
-
+class ActionCameraSettings extends ChangeNotifier {
   static const AppStatusSettingName = "app_status";
   static const CameraClockSettingName = "camera_clock";
   static const SoftwareVersionSettingName = "sw_version";
@@ -77,7 +75,8 @@ class ActionCameraSettings extends ChangeNotifier{
   static const SDCardNeedFormatSettingName = "sdcard_need_format";
   static const PhotoRecordTimeSettingName = "record_photo_time";
   static const DevFunctionsSettingName = "dev_functions";
-  static const TimeLapseVideoResolutionSettingName = "timelapse_video_resolution";
+  static const TimeLapseVideoResolutionSettingName =
+      "timelapse_video_resolution";
   static const VideoPhotoResolutionSettingName = "video_photo_resolution";
   static const SlowMotionRateSettingName = "slow_motion_rate";
   static const SlowMotionResolutionSettingName = "slow_motion_resolution";
@@ -103,7 +102,7 @@ class ActionCameraSettings extends ChangeNotifier{
   static const AutoGainControlSettingName = "auto_gain_ctrl";
   static const SupportAutoGainControlSettingName = "support_auto_gain_ctrl";
 
-  final Map<String,String> otherSettings = HashMap();
+  final Map<String, String> otherSettings = HashMap();
 
   CameraStatus status;
   DateTime clock;
@@ -241,7 +240,7 @@ class ActionCameraSettings extends ChangeNotifier{
         break;
       case DefaultFileRootInCamera:
         defaultFileRootInCamera = settingValue;
-        _configWidgets.add(TextROWidget('File Root In Camera',settingValue));
+        _configWidgets.add(TextROWidget('File Root In Camera', settingValue));
         break;
       case DefaultFileDownloadURLBase:
         break;
@@ -263,7 +262,8 @@ class ActionCameraSettings extends ChangeNotifier{
         break;
       case ElectronicImageStabilizationSettingName:
         electronicImageStabilizationState = ToggleState.parse(settingValue);
-        _configWidgets.add(ToggleState.getWidget(ToggleStateSettings.electronicImageStabilization));
+        _configWidgets.add(ToggleState.getWidget(
+            ToggleStateSettings.electronicImageStabilization));
         break;
       case VideoTimestampSettingName:
         videoTimestamp = Timestamp.parse(settingValue);
@@ -275,7 +275,8 @@ class ActionCameraSettings extends ChangeNotifier{
         break;
       case VideoMuteSettingName:
         videoMuteState = ToggleState.parse(settingValue);
-        _configWidgets.add(ToggleState.getWidget(ToggleStateSettings.videoMute));
+        _configWidgets
+            .add(ToggleState.getWidget(ToggleStateSettings.videoMute));
         break;
       case LEDModeSettingName:
         ledMode = LEDMode.parse(settingValue);
@@ -299,7 +300,8 @@ class ActionCameraSettings extends ChangeNotifier{
         break;
       case BuzzerRingSettingName:
         buzzerRing = ToggleState.parse(settingValue);
-        _configWidgets.add(ToggleState.getWidget(ToggleStateSettings.buzzerRing));
+        _configWidgets
+            .add(ToggleState.getWidget(ToggleStateSettings.buzzerRing));
         break;
       case RecordModeSettingName:
         recordMode = RecordMode.parse(settingValue);
@@ -323,15 +325,16 @@ class ActionCameraSettings extends ChangeNotifier{
         break;
       case AdjustLensDistortionStateSettingName:
         adjustLensDistortionState = ToggleState.parse(settingValue);
-        _configWidgets.add(ToggleState.getWidget(ToggleStateSettings.adjustLensDistortion));
+        _configWidgets.add(
+            ToggleState.getWidget(ToggleStateSettings.adjustLensDistortion));
         break;
       case BurstCaptureNumberSettingName:
         burstCaptureNumber = settingValue;
-        _configWidgets.add(TextROWidget('Burst Capture Number',settingValue));
+        _configWidgets.add(TextROWidget('Burst Capture Number', settingValue));
         break;
       default:
         otherSettings[settingName] = settingValue;
-        _configWidgets.add(TextROWidget(settingName,settingValue));
+        _configWidgets.add(TextROWidget(settingName, settingValue));
     }
   }
 
@@ -346,13 +349,12 @@ class ActionCameraSettings extends ChangeNotifier{
       default:
         this.systemMode = SystemMode.Unknown;
     }
-
   }
 
   void loadSettings(HashMap<String, String> params) {
     _configWidgets.clear();
     otherSettings.clear();
-    params.forEach((key, value) => parseSettingValue(key,value));
+    params.forEach((key, value) => parseSettingValue(key, value));
     notifyListeners();
   }
 
@@ -369,7 +371,4 @@ class ActionCameraSettings extends ChangeNotifier{
   getSettings(BuildContext context) {
     Provider.of<CameraService>(context, listen: false).getSettings(context);
   }
-
-
-
 }

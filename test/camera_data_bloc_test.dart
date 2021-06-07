@@ -1,10 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/bloc.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/bloc/bloc.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 class MockStartSession extends Mock implements StartSession {}
+
 class MockBatteryQuantity extends Mock implements BatteryQuantity {}
 //
 //void main() {

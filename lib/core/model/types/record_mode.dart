@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class RecordMode {
@@ -27,7 +27,7 @@ class RecordMode {
   static const RecordMode Normal = RecordMode._('record');
   static const RecordMode Timelapse = RecordMode._('record_timelapse');
 
-  static const listItems = <RecordMode>[Unknown,Normal, Timelapse];
+  static const listItems = <RecordMode>[Unknown, Normal, Timelapse];
 
   static Widget getWidget() => _Widget();
 }
@@ -37,18 +37,18 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
         builder: (context, settings, widget) => ListTile(
-          title: Text('Record Mode'),
-          trailing: DropdownButton<RecordMode>(
-            value: settings.recordMode,
-            items: RecordMode.listItems
-                .map((RecordMode value) => DropdownMenuItem<RecordMode>(
-                value: value, child: Text(value.toString())))
-                .toList(),
-            onChanged: (RecordMode newValue) {
-              settings.recordMode = newValue;
-              settings.changed();
-            },
-          ),
-        ));
+              title: Text('Record Mode'),
+              trailing: DropdownButton<RecordMode>(
+                value: settings.recordMode,
+                items: RecordMode.listItems
+                    .map((RecordMode value) => DropdownMenuItem<RecordMode>(
+                        value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (RecordMode newValue) {
+                  settings.recordMode = newValue;
+                  settings.changed();
+                },
+              ),
+            ));
   }
 }

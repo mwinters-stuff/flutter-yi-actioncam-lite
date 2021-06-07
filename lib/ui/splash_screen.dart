@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/utils/constants.dart';
-import 'package:flutterYiActionCameraLite/ui/home_screen.dart';
+import 'package:flutter_yi_actioncam_lite/core/utils/constants.dart';
+import 'package:flutter_yi_actioncam_lite/ui/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const RouteName = '/splashScreen';

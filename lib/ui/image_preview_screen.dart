@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
-import 'package:flutterYiActionCameraLite/ui/battery_icon.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/ui/battery_icon.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ImagePreviewScreen extends StatelessWidget {
@@ -12,20 +12,19 @@ class ImagePreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Yi Camera - ${_file.filename}'), actions: <Widget>[
-          BatteryIcon(),
-        ]),
+        appBar: AppBar(
+            title: Text('Yi Camera - ${_file.filename}'),
+            actions: <Widget>[
+              BatteryIcon(),
+            ]),
         backgroundColor: Colors.white,
-    body: Stack(
-      children: [
-        Center(child: CircularProgressIndicator()),
-        Center(
-            child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: _file.url
-            )
-        )
-      ],
-    ));
+        body: Stack(
+          children: [
+            Center(child: CircularProgressIndicator()),
+            Center(
+                child: FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage, image: _file.url))
+          ],
+        ));
   }
 }

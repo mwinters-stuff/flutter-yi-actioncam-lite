@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_command.dart';
-import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
-import 'package:flutterYiActionCameraLite/core/model/others/yi_camera_error.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_command.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/camera_response.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/yi_camera_error.dart';
 
 class StartSession extends CameraCommand {
   static const int COMMAND_ID = 257;
@@ -20,7 +20,5 @@ class StartSession extends CameraCommand {
     return null;
   }
 
-  StartSession.data(this.rtspUrl, this.sessionId): super(COMMAND_ID);
-
-
+  StartSession.data(this.rtspUrl, this.sessionId) : super(COMMAND_ID);
 }

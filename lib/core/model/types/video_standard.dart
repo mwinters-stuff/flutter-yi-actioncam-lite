@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class VideoStandard {
@@ -27,11 +27,7 @@ class VideoStandard {
   static const VideoStandard PAL = VideoStandard._('PAL');
   static const VideoStandard NTSC = VideoStandard._('NTSC');
 
-  static const listItems = <VideoStandard>[
-    Unknown,
-    PAL,
-    NTSC
-  ];
+  static const listItems = <VideoStandard>[Unknown, PAL, NTSC];
 
   static Widget getWidget() => _Widget();
 }
@@ -41,19 +37,19 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
         builder: (context, settings, widget) => ListTile(
-          title: Text('Video Standard'),
-          trailing: DropdownButton<VideoStandard>(
-            value: settings.videoStandard,
-            items: VideoStandard.listItems
-                .map((VideoStandard value) => DropdownMenuItem<VideoStandard>(value: value, child: Text(value.toString())))
-                .toList(),
-            onChanged: (VideoStandard newValue) {
-              settings.videoStandard = newValue;
-              settings.changed();
-            },
-          ),
-        ));
+              title: Text('Video Standard'),
+              trailing: DropdownButton<VideoStandard>(
+                value: settings.videoStandard,
+                items: VideoStandard.listItems
+                    .map((VideoStandard value) =>
+                        DropdownMenuItem<VideoStandard>(
+                            value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (VideoStandard newValue) {
+                  settings.videoStandard = newValue;
+                  settings.changed();
+                },
+              ),
+            ));
   }
 }
-
-

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
 import 'package:provider/provider.dart';
 
 class ToggleState {
@@ -36,8 +36,8 @@ class _Widget extends StatelessWidget {
 
   _Widget(this._usage);
 
-  String _title(){
-    switch(_usage){
+  String _title() {
+    switch (_usage) {
       case ToggleStateSettings.electronicImageStabilization:
         return "Electronic Image Stabilization";
       case ToggleStateSettings.videoMute:
@@ -51,8 +51,8 @@ class _Widget extends StatelessWidget {
     }
   }
 
-  bool _getValue(ActionCameraSettings settings){
-    switch(_usage){
+  bool _getValue(ActionCameraSettings settings) {
+    switch (_usage) {
       case ToggleStateSettings.electronicImageStabilization:
         return settings.electronicImageStabilizationState == ToggleState.On;
       case ToggleStateSettings.videoMute:
@@ -66,19 +66,21 @@ class _Widget extends StatelessWidget {
     }
   }
 
-  void _setValue(ActionCameraSettings settings, bool value){
-    switch(_usage){
+  void _setValue(ActionCameraSettings settings, bool value) {
+    switch (_usage) {
       case ToggleStateSettings.electronicImageStabilization:
-        settings.electronicImageStabilizationState = value ? ToggleState.On :  ToggleState.Off;
+        settings.electronicImageStabilizationState =
+            value ? ToggleState.On : ToggleState.Off;
         break;
       case ToggleStateSettings.videoMute:
-        settings.videoMuteState  = value ? ToggleState.On :  ToggleState.Off;
+        settings.videoMuteState = value ? ToggleState.On : ToggleState.Off;
         break;
       case ToggleStateSettings.buzzerRing:
-        settings.buzzerRing  = value ? ToggleState.On :  ToggleState.Off;
+        settings.buzzerRing = value ? ToggleState.On : ToggleState.Off;
         break;
       case ToggleStateSettings.adjustLensDistortion:
-        settings.adjustLensDistortionState  = value ? ToggleState.On :  ToggleState.Off;
+        settings.adjustLensDistortionState =
+            value ? ToggleState.On : ToggleState.Off;
         break;
     }
   }
@@ -86,16 +88,14 @@ class _Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
-        builder: (context, settings, widget) => SwitchListTile(
-          title: Text(_title()),
-            value: _getValue(settings),
-            onChanged: (bool newValue) {
-            _setValue(settings, newValue);
-              settings.changed();
-            },
-          ),
-        );
+      builder: (context, settings, widget) => SwitchListTile(
+        title: Text(_title()),
+        value: _getValue(settings),
+        onChanged: (bool newValue) {
+          _setValue(settings, newValue);
+          settings.changed();
+        },
+      ),
+    );
   }
 }
-
-

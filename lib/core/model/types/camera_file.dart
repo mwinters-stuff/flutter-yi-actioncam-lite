@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/ui/image_preview_screen.dart';
+import 'package:flutter_yi_actioncam_lite/ui/image_preview_screen.dart';
 
 class CameraFile {
   String _filename;
@@ -18,7 +18,8 @@ class CameraFile {
         title: Text(_filename),
         trailing: Text(_fileSize.toString()),
         subtitle: Text(_dateTime.toString()),
-        onTap: () => Navigator.pushNamed(context, ImagePreviewScreen.RouteName, arguments: this));
+        onTap: () => Navigator.pushNamed(context, ImagePreviewScreen.RouteName,
+            arguments: this));
   }
 
   String get filename => _filename;

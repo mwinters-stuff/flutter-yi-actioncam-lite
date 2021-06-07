@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class ScreenAutoLock {
@@ -33,7 +33,13 @@ class ScreenAutoLock {
   static const ScreenAutoLock s_60s = ScreenAutoLock._('60s');
   static const ScreenAutoLock s_120s = ScreenAutoLock._('120s');
 
-  static const listItems = <ScreenAutoLock>[Unknown,s_Never, s_30s, s_60s, s_120s];
+  static const listItems = <ScreenAutoLock>[
+    Unknown,
+    s_Never,
+    s_30s,
+    s_60s,
+    s_120s
+  ];
 
   static Widget getWidget() => _Widget();
 }

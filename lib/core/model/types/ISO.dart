@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
 import 'package:provider/provider.dart';
 
 class ISO {
@@ -64,35 +64,35 @@ class _Widget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ActionCameraSettings>(
-        builder: (context, settings, widget) {
-          var bad = (_usage == VideoOrPhoto.video
+    return Consumer<ActionCameraSettings>(builder: (context, settings, widget) {
+      var bad = (_usage == VideoOrPhoto.video
               ? settings.videoISO
-              : settings.photoISO) == ISO.Unknown;
-          return ListTile(
-            title: Text(
-                (_usage == VideoOrPhoto.video ? 'Video' : 'Photo') + ' ISO', style: bad ? TextStyle(color: Colors.red): null),
-            trailing: DropdownButton<ISO>(
-              value: (_usage == VideoOrPhoto.video
-                  ? settings.videoISO
-                  : settings.photoISO),
-              items: ISO.listItems
-                  .map((ISO value) => DropdownMenuItem<ISO>(
+              : settings.photoISO) ==
+          ISO.Unknown;
+      return ListTile(
+        title: Text((_usage == VideoOrPhoto.video ? 'Video' : 'Photo') + ' ISO',
+            style: bad ? TextStyle(color: Colors.red) : null),
+        trailing: DropdownButton<ISO>(
+          value: (_usage == VideoOrPhoto.video
+              ? settings.videoISO
+              : settings.photoISO),
+          items: ISO.listItems
+              .map((ISO value) => DropdownMenuItem<ISO>(
                   value: value, child: Text(value.toString())))
-                  .toList(),
-              onChanged: (ISO newValue) {
-                switch (_usage) {
-                  case VideoOrPhoto.photo:
-                    settings.photoISO = newValue;
-                    break;
-                  case VideoOrPhoto.video:
-                    settings.videoISO = newValue;
-                    break;
-                }
-                settings.changed();
-              },
-            ),
-          );
-        });
+              .toList(),
+          onChanged: (ISO newValue) {
+            switch (_usage) {
+              case VideoOrPhoto.photo:
+                settings.photoISO = newValue;
+                break;
+              case VideoOrPhoto.video:
+                settings.videoISO = newValue;
+                break;
+            }
+            settings.changed();
+          },
+        ),
+      );
+    });
   }
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
 
 import 'package:provider/provider.dart';
-
-
 
 class ColourMode {
   final String _name;

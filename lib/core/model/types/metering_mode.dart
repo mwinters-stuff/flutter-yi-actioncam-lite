@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class MeteringMode {
@@ -30,7 +30,7 @@ class MeteringMode {
   static const MeteringMode Average = MeteringMode._('average');
   static const MeteringMode Spot = MeteringMode._('spot');
 
-  static const listItems = <MeteringMode>[Unknown,Center, Average, Spot];
+  static const listItems = <MeteringMode>[Unknown, Center, Average, Spot];
 
   static Widget getWidget() => _Widget();
 }
@@ -40,19 +40,18 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
         builder: (context, settings, widget) => ListTile(
-          title: Text('Metering Mode'),
-          trailing: DropdownButton<MeteringMode>(
-            value: settings.meteringMode,
-            items: MeteringMode.listItems
-                .map((MeteringMode value) => DropdownMenuItem<MeteringMode>(
-                value: value, child: Text(value.toString())))
-                .toList(),
-            onChanged: (MeteringMode newValue) {
-              settings.meteringMode = newValue;
-              settings.changed();
-            },
-          ),
-        ));
+              title: Text('Metering Mode'),
+              trailing: DropdownButton<MeteringMode>(
+                value: settings.meteringMode,
+                items: MeteringMode.listItems
+                    .map((MeteringMode value) => DropdownMenuItem<MeteringMode>(
+                        value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (MeteringMode newValue) {
+                  settings.meteringMode = newValue;
+                  settings.changed();
+                },
+              ),
+            ));
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class BuzzerVolume {
@@ -30,33 +30,28 @@ class BuzzerVolume {
   static const BuzzerVolume Low = BuzzerVolume._('low');
   static const BuzzerVolume Mute = BuzzerVolume._('mute');
 
-  static const listItems = <BuzzerVolume>[
-    Unknown,
-    High, Low, Mute
-  ];
+  static const listItems = <BuzzerVolume>[Unknown, High, Low, Mute];
 
   static Widget getWidget() => _Widget();
 }
 
-class _Widget extends StatelessWidget{
-
+class _Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
-        builder: (context, settings, widget) =>
-            ListTile(title: Text('Buzzer Volume'),
+        builder: (context, settings, widget) => ListTile(
+              title: Text('Buzzer Volume'),
               trailing: DropdownButton<BuzzerVolume>(
                 value: settings.buzzerVolume,
-                items: BuzzerVolume.listItems.map((BuzzerVolume value) => DropdownMenuItem<BuzzerVolume> (
-                    value: value,
-                    child: Text(value.toString())
-                )).toList(),
-                onChanged: (BuzzerVolume newValue){
+                items: BuzzerVolume.listItems
+                    .map((BuzzerVolume value) => DropdownMenuItem<BuzzerVolume>(
+                        value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (BuzzerVolume newValue) {
                   settings.buzzerVolume = newValue;
                   settings.changed();
                 },
               ),
             ));
   }
-
 }

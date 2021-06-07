@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
 import 'package:provider/provider.dart';
 
 class WhiteBalance {
@@ -46,7 +46,6 @@ class WhiteBalance {
     Cloudy
   ];
 
-
   static Widget getWidget(VideoOrPhoto usage) => _Widget(usage);
 }
 
@@ -59,29 +58,28 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
         builder: (context, settings, widget) => ListTile(
-          title: Text(
-              (_usage == VideoOrPhoto.video ? 'Video' : 'Photo') + ' White Balance'),
-          trailing: DropdownButton<WhiteBalance>(
-            value: (_usage == VideoOrPhoto.video
-                ? settings.videoWhiteBalance
-                : settings.photoWhiteBalance),
-            items: WhiteBalance.listItems
-                .map((WhiteBalance value) => DropdownMenuItem<WhiteBalance>(
-                value: value, child: Text(value.toString())))
-                .toList(),
-            onChanged: (WhiteBalance newValue) {
-              switch (_usage) {
-                case VideoOrPhoto.photo:
-                  settings.photoWhiteBalance = newValue;
-                  break;
-                case VideoOrPhoto.video:
-                  settings.videoWhiteBalance = newValue;
-                  break;
-              }
-              settings.changed();
-            },
-          ),
-        ));
+              title: Text((_usage == VideoOrPhoto.video ? 'Video' : 'Photo') +
+                  ' White Balance'),
+              trailing: DropdownButton<WhiteBalance>(
+                value: (_usage == VideoOrPhoto.video
+                    ? settings.videoWhiteBalance
+                    : settings.photoWhiteBalance),
+                items: WhiteBalance.listItems
+                    .map((WhiteBalance value) => DropdownMenuItem<WhiteBalance>(
+                        value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (WhiteBalance newValue) {
+                  switch (_usage) {
+                    case VideoOrPhoto.photo:
+                      settings.photoWhiteBalance = newValue;
+                      break;
+                    case VideoOrPhoto.video:
+                      settings.videoWhiteBalance = newValue;
+                      break;
+                  }
+                  settings.changed();
+                },
+              ),
+            ));
   }
 }
-

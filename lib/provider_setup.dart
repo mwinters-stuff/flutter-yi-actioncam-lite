@@ -1,25 +1,21 @@
-
-import 'package:flutterYiActionCameraLite/core/bloc/bloc.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/camera_service_bloc.dart';
-import 'package:flutterYiActionCameraLite/core/services/camera_service.dart';
+import 'package:flutter_yi_actioncam_lite/core/bloc/bloc.dart';
+import 'package:flutter_yi_actioncam_lite/core/bloc/camera_service_bloc.dart';
+import 'package:flutter_yi_actioncam_lite/core/services/camera_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/single_child_widget.dart';
 
 List<BlocProvider> blocs = [
   BlocProvider<CameraServiceBloc>(
-    create: (context) => CameraServiceBloc(cameraService: RepositoryProvider.of<CameraService>(context))
-  ),
-  BlocProvider<StartSessionBloc>(
-    create: (context) => StartSessionBloc()),
-  BlocProvider<BatteryQuantityBloc>(
-      create: (context) => BatteryQuantityBloc())
+      create: (context) => CameraServiceBloc(
+          cameraService: RepositoryProvider.of<CameraService>(context))),
+  BlocProvider<StartSessionBloc>(create: (context) => StartSessionBloc()),
+  BlocProvider<BatteryQuantityBloc>(create: (context) => BatteryQuantityBloc())
 ];
 
 List<RepositoryProvider> repositories = [
   RepositoryProvider<CameraService>(
     create: (context) => CameraService(),
   ),
-
 ];
 
 List<SingleChildWidget> independentServices = [
@@ -47,11 +43,8 @@ List<SingleChildWidget> independentServices = [
 //  ChangeNotifierProvider<GetFileList>(
 //      create:(_) => GetFileList()
 //  ),
-
 ];
 
-List<SingleChildWidget> dependentServices = [
-];
+List<SingleChildWidget> dependentServices = [];
 
-List<SingleChildWidget> uiConsumableProviders = [
-];
+List<SingleChildWidget> uiConsumableProviders = [];

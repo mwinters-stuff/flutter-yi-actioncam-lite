@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_file_list.dart';
-import 'package:flutterYiActionCameraLite/ui/base_page.dart';
-import 'package:flutterYiActionCameraLite/ui/base_screen.dart';
-import 'package:flutterYiActionCameraLite/ui/base_widget.dart';
-import 'package:flutterYiActionCameraLite/ui/battery_icon.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/get_file_list.dart';
+import 'package:flutter_yi_actioncam_lite/ui/base_page.dart';
+import 'package:flutter_yi_actioncam_lite/ui/base_screen.dart';
+import 'package:flutter_yi_actioncam_lite/ui/base_widget.dart';
+import 'package:flutter_yi_actioncam_lite/ui/battery_icon.dart';
 import 'package:provider/provider.dart';
 
-class FilesScreen extends BasePage{
+class FilesScreen extends BasePage {
   static const RouteName = '/filesScreen';
 
   @override
   State<StatefulWidget> createState() => _FilesScreenState();
-
 }
 
-
 class _FilesScreenState extends BaseState<FilesScreen> with BaseScreen {
-
   @override
   Widget body(BuildContext context) {
     return Text('bob');
@@ -36,7 +33,6 @@ class _FilesScreenState extends BaseState<FilesScreen> with BaseScreen {
       BatteryIcon(),
     ];
   }
-
 
   @override
   String screenName() {

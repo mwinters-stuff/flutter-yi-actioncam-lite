@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
-import 'package:flutterYiActionCameraLite/core/model/others/error_code.dart';
-import 'package:flutterYiActionCameraLite/core/model/others/yi_camera_error.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/camera_response.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/error_code.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/yi_camera_error.dart';
 
-abstract class CameraCommand{
+abstract class CameraCommand {
   final int _commandId;
 
   int get commandId => _commandId;
@@ -12,7 +12,9 @@ abstract class CameraCommand{
 
   CameraCommand(this._commandId);
 
-  void update({Function(CameraCommand) success, Function(CameraCommand, YICameraSDKError) fail}){
+  void update(
+      {Function(CameraCommand) success,
+      Function(CameraCommand, YICameraSDKError) fail}) {
     _success = success;
     _fail = fail;
   }
@@ -30,21 +32,23 @@ abstract class CameraCommand{
     bool result = true;
     final int rval = response.data['rval'];
     if (rval != 0) {
-      error = YICameraSDKError(ErrorCode.CommandFailed, subError: YICameraSDKError(rval, subError: YICameraSDKError(ErrorCode.convertFirmwareError(rval))));
+      error = YICameraSDKError(ErrorCode.CommandFailed,
+          subError: YICameraSDKError(rval,
+              subError:
+                  YICameraSDKError(ErrorCode.convertFirmwareError(rval))));
       result = false;
     } else {
       error = onChildSuccess(response);
     }
     if (error != null) {
-      if(_fail != null) {
+      if (_fail != null) {
         _fail(this, error);
       }
       result = false;
     }
-    if(_success != null) {
+    if (_success != null) {
       _success(this);
     }
     return result;
   }
-
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class FieldOfView {
@@ -30,35 +30,28 @@ class FieldOfView {
   static const FieldOfView Medium = FieldOfView._('medium');
   static const FieldOfView Narrow = FieldOfView._('narrow');
 
-  static const listItems = <FieldOfView>[
-    Unknown,
-    Wide, Medium, Narrow
-  ];
+  static const listItems = <FieldOfView>[Unknown, Wide, Medium, Narrow];
 
   static Widget getWidget() => _Widget();
 }
 
-
-
-class _Widget extends StatelessWidget{
-
+class _Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
-        builder: (context, settings, widget) =>
-            ListTile(title: Text('Video Field Of View'),
+        builder: (context, settings, widget) => ListTile(
+              title: Text('Video Field Of View'),
               trailing: DropdownButton<FieldOfView>(
                 value: settings.videoFieldOfView,
-                items: FieldOfView.listItems.map((FieldOfView value) => DropdownMenuItem<FieldOfView> (
-                    value: value,
-                    child: Text(value.toString())
-                )).toList(),
-                onChanged: (FieldOfView newValue){
+                items: FieldOfView.listItems
+                    .map((FieldOfView value) => DropdownMenuItem<FieldOfView>(
+                        value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (FieldOfView newValue) {
                   settings.videoFieldOfView = newValue;
                   settings.changed();
                 },
               ),
             ));
   }
-
 }

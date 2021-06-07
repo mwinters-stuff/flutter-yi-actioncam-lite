@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
 import 'package:provider/provider.dart';
 
 class Timestamp {
@@ -34,13 +34,7 @@ class Timestamp {
   static const Timestamp Date = Timestamp._('date');
   static const Timestamp DateAndTime = Timestamp._('date/time');
 
-  static const listItems = <Timestamp>[
-    Unknown,
-    Off,
-    Time,
-    Date,
-    DateAndTime
-  ];
+  static const listItems = <Timestamp>[Unknown, Off, Time, Date, DateAndTime];
 
   static Widget getWidget(VideoOrPhoto usage) => _Widget(usage);
 }
@@ -54,30 +48,28 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
         builder: (context, settings, widget) => ListTile(
-          title: Text(
-              (_usage == VideoOrPhoto.video ? 'Video' : 'Photo') + ' Timestamp'),
-          trailing: DropdownButton<Timestamp>(
-            value: (_usage == VideoOrPhoto.video
-                ? settings.videoTimestamp
-                : settings.photoTimestamp),
-            items: Timestamp.listItems
-                .map((Timestamp value) => DropdownMenuItem<Timestamp>(
-                value: value, child: Text(value.toString())))
-                .toList(),
-            onChanged: (Timestamp newValue) {
-              switch (_usage) {
-                case VideoOrPhoto.photo:
-                  settings.photoTimestamp = newValue;
-                  break;
-                case VideoOrPhoto.video:
-                  settings.videoTimestamp = newValue;
-                  break;
-              }
-              settings.changed();
-            },
-          ),
-        ));
+              title: Text((_usage == VideoOrPhoto.video ? 'Video' : 'Photo') +
+                  ' Timestamp'),
+              trailing: DropdownButton<Timestamp>(
+                value: (_usage == VideoOrPhoto.video
+                    ? settings.videoTimestamp
+                    : settings.photoTimestamp),
+                items: Timestamp.listItems
+                    .map((Timestamp value) => DropdownMenuItem<Timestamp>(
+                        value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (Timestamp newValue) {
+                  switch (_usage) {
+                    case VideoOrPhoto.photo:
+                      settings.photoTimestamp = newValue;
+                      break;
+                    case VideoOrPhoto.video:
+                      settings.videoTimestamp = newValue;
+                      break;
+                  }
+                  settings.changed();
+                },
+              ),
+            ));
   }
 }
-
-

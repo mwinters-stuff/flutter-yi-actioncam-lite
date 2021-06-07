@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
-import 'package:flutterYiActionCameraLite/core/model/others/others.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
-import 'package:flutterYiActionCameraLite/core/services/services.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/others.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/services/services.dart';
 import 'package:provider/provider.dart';
 
 class GetFileList extends CameraCommand {
@@ -18,7 +18,6 @@ class GetFileList extends CameraCommand {
     _adapterStatus = value;
   }
 
-
   GetFileList() : super(1282);
 
   @override
@@ -28,7 +27,8 @@ class GetFileList extends CameraCommand {
     return obj;
   }
 
-  var fileSizeAndTimePattern = RegExp(r"^(\d+) byte\|(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d)$");
+  var fileSizeAndTimePattern =
+      RegExp(r"^(\d+) byte\|(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d)$");
 
   @override
   YICameraSDKError onChildSuccess(CameraResponse response) {
@@ -37,14 +37,16 @@ class GetFileList extends CameraCommand {
     var array = response.data['listing'];
     array.forEach((i) {
       var filename = i.keys.first;
-       Iterable<RegExpMatch> matches =  fileSizeAndTimePattern.allMatches(i.values.first);
-        matches.forEach((element) {
-          var size = element.group(1);
-          var time = element.group(2);
-          CameraFile cameraFile = CameraFile(filename, int.parse(size), DateTime.parse(time));
-          print(cameraFile.toString());
-          files.add(cameraFile);
-        });
+      Iterable<RegExpMatch> matches =
+          fileSizeAndTimePattern.allMatches(i.values.first);
+      matches.forEach((element) {
+        var size = element.group(1);
+        var time = element.group(2);
+        CameraFile cameraFile =
+            CameraFile(filename, int.parse(size), DateTime.parse(time));
+        print(cameraFile.toString());
+        files.add(cameraFile);
+      });
     });
     return null;
   }

@@ -5,17 +5,17 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/bloc.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_command.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/battery_quantity.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_file_list.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/get_settings.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_session.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/start_view_finder.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/stop_view_finder.dart';
-import 'package:flutterYiActionCameraLite/core/model/others/camera_response.dart';
-import 'package:flutterYiActionCameraLite/core/services/camera_response_parser.dart';
-import 'package:flutterYiActionCameraLite/core/utils/constants.dart';
+import 'package:flutter_yi_actioncam_lite/core/bloc/bloc.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_command.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/battery_quantity.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/get_file_list.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/get_settings.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/start_session.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/start_view_finder.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/stop_view_finder.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/others/camera_response.dart';
+import 'package:flutter_yi_actioncam_lite/core/services/camera_response_parser.dart';
+import 'package:flutter_yi_actioncam_lite/core/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CameraService {
@@ -37,36 +37,36 @@ class CameraService {
 
   CameraService();
 
-
   Future<bool> connect(BuildContext context) async {
     _keepAliveTimer?.cancel();
-    return Socket.connect(Constants.CAMERA_ADDRESS, Constants.CAMERA_PORT, timeout: Duration(seconds: 2)).then((value)  {
+    return Socket.connect(Constants.CAMERA_ADDRESS, Constants.CAMERA_PORT,
+            timeout: Duration(seconds: 2))
+        .then((value) {
       _socket = value;
       _socket.listen((data) => _handleData(context, data),
           onDone: () => _handleDone(context),
-          onError: (error, trace) =>  _handleError(error, trace, context),
-      cancelOnError: true);
+          onError: (error, trace) => _handleError(error, trace, context),
+          cancelOnError: true);
       send(StartSession());
       return true;
-    }).catchError( (e){
+    }).catchError((e) {
       print("catchConnectError ${e.message}");
       return false;
     });
-
   }
 
   void _handleData(BuildContext context, Uint8List data) {
     String received = new String.fromCharCodes(data).trim();
     print("Received $received");
     _responseParser.parse(received, (cameraResponse) {
-      if(cameraResponse.valid) {
+      if (cameraResponse.valid) {
         if (cameraResponse.isNotification) {
-           if(cameraResponse.messageId == 1793) {
-             _sessionId = cameraResponse.data['token'];
-           }else {
-             _internalProcessNotification(context, cameraResponse);
-           }
-        }else{
+          if (cameraResponse.messageId == 1793) {
+            _sessionId = cameraResponse.data['token'];
+          } else {
+            _internalProcessNotification(context, cameraResponse);
+          }
+        } else {
           _handleResponse(context, cameraResponse);
         }
       }
@@ -76,19 +76,18 @@ class CameraService {
   void _handleDone(BuildContext context) {
     print("done");
 
-
     _keepAliveTimer?.cancel();
     _heartBeat = 0;
     _socket = null;
 
 //    BlocProvider.of<CameraServiceBloc>(context).add(Disconnect(context: context));
-
   }
 
-  void _handleError( error, StackTrace trace, context) {
+  void _handleError(error, StackTrace trace, context) {
     print("_handleError $error");
     _keepAliveTimer?.cancel();
-    BlocProvider.of<CameraServiceBloc>(context).add(Disconnect(context: context));
+    BlocProvider.of<CameraServiceBloc>(context)
+        .add(Disconnect(context: context));
   }
 
   void send(CameraCommand cameraCommand) {
@@ -111,18 +110,20 @@ class CameraService {
     _socket?.close();
   }
 
-  void _internalProcessNotification(BuildContext context,
-      CameraResponse cameraResponse) {
+  void _internalProcessNotification(
+      BuildContext context, CameraResponse cameraResponse) {
     if (cameraResponse.messageId != 7) {
       return;
     }
     print("Camera Notification ${cameraResponse.notificationType}");
     switch (cameraResponse.notificationType) {
       case 'battery':
-        BlocProvider.of<BatteryQuantityBloc>(context).add(BatteryPercentEvent(percent: int.parse(cameraResponse.data['param'])));
+        BlocProvider.of<BatteryQuantityBloc>(context).add(BatteryPercentEvent(
+            percent: int.parse(cameraResponse.data['param'])));
         break;
       case 'adapter_status':
-        BlocProvider.of<BatteryQuantityBloc>(context).add(BatteryAdapterEvent(adapter: cameraResponse.data['param'] == '1'));
+        BlocProvider.of<BatteryQuantityBloc>(context).add(
+            BatteryAdapterEvent(adapter: cameraResponse.data['param'] == '1'));
         break;
       case "start_video_record":
         {
@@ -190,34 +191,38 @@ class CameraService {
         _keepAliveTimer = Timer.periodic(Duration(seconds: 5), (timer) {
           sendData({'token': _sessionId, 'heartbeat': ++_heartBeat});
         });
-        if(ok) {
+        if (ok) {
           if (cameraCommand is StartSession) {
-            BlocProvider.of<StartSessionBloc>(context).add(StartSessionDataEvent(sessionId: cameraCommand.sessionId, rtspUrl: cameraCommand.rtspUrl));
+            BlocProvider.of<StartSessionBloc>(context).add(
+                StartSessionDataEvent(
+                    sessionId: cameraCommand.sessionId,
+                    rtspUrl: cameraCommand.rtspUrl));
             _sessionId = cameraCommand.sessionId;
             send(BatteryQuantity());
           }
           if (cameraCommand is BatteryQuantity) {
-            BlocProvider.of<BatteryQuantityBloc>(context).add(BatteryPercentAdapterEvent(percent: cameraCommand.batteryQuantity, adapter: cameraCommand.adapterStatus));
+            BlocProvider.of<BatteryQuantityBloc>(context).add(
+                BatteryPercentAdapterEvent(
+                    percent: cameraCommand.batteryQuantity,
+                    adapter: cameraCommand.adapterStatus));
           }
         }
-
       });
     }
   }
 
-  void startViewFinder(BuildContext context){
+  void startViewFinder(BuildContext context) {
     print("startViewFinder");
     send(StartViewFinder());
   }
 
-  void stopViewFinder(BuildContext context){
+  void stopViewFinder(BuildContext context) {
     print("startViewFinder");
     send(StopViewFinder());
   }
 
-  void getFileList(BuildContext context){
+  void getFileList(BuildContext context) {
     print("getFileList");
     send(GetFileList());
   }
-
 }

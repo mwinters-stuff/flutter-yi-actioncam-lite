@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class TimeLapseVideoDuration {
@@ -35,7 +35,8 @@ class TimeLapseVideoDuration {
     }
   }
 
-  static const TimeLapseVideoDuration Unknown = TimeLapseVideoDuration._('Unknown');
+  static const TimeLapseVideoDuration Unknown =
+      TimeLapseVideoDuration._('Unknown');
   static const TimeLapseVideoDuration t_Off = TimeLapseVideoDuration._('off');
   static const TimeLapseVideoDuration t_6s = TimeLapseVideoDuration._('6s');
   static const TimeLapseVideoDuration t_8s = TimeLapseVideoDuration._('8s');
@@ -64,15 +65,14 @@ class _Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
-        builder: (context, settings, widget) =>
-            ListTile(
+        builder: (context, settings, widget) => ListTile(
               title: Text('Video Timelapse Duration'),
               trailing: DropdownButton<TimeLapseVideoDuration>(
                 value: settings.timeLapseVideoDuration,
                 items: TimeLapseVideoDuration.listItems
                     .map((TimeLapseVideoDuration value) =>
-                    DropdownMenuItem<TimeLapseVideoDuration>(
-                        value: value, child: Text(value.toString())))
+                        DropdownMenuItem<TimeLapseVideoDuration>(
+                            value: value, child: Text(value.toString())))
                     .toList(),
                 onChanged: (TimeLapseVideoDuration newValue) {
                   settings.timeLapseVideoDuration = newValue;
@@ -82,6 +82,3 @@ class _Widget extends StatelessWidget {
             ));
   }
 }
-
-
-

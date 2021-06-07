@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/camera_service_bloc.dart';
-import 'package:flutterYiActionCameraLite/core/bloc/camera_service_event.dart';
-import 'package:flutterYiActionCameraLite/provider_setup.dart';
-import 'package:flutterYiActionCameraLite/ui/home_screen.dart';
-import 'package:flutterYiActionCameraLite/ui/router.dart';
+import 'package:flutter_yi_actioncam_lite/core/bloc/camera_service_bloc.dart';
+import 'package:flutter_yi_actioncam_lite/core/bloc/camera_service_event.dart';
+import 'package:flutter_yi_actioncam_lite/provider_setup.dart';
+import 'package:flutter_yi_actioncam_lite/ui/home_screen.dart';
+import 'package:flutter_yi_actioncam_lite/ui/router.dart' as UIRouter;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
@@ -39,10 +39,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<CameraServiceBloc>(context).add(AppStarted());
-    return MaterialApp(title: 'Yi Action Camera Lite', onGenerateRoute: Router.generateRoute, initialRoute: HomeScreen.RouteName);
+    return MaterialApp(
+        title: 'Yi Action Camera Lite',
+        onGenerateRoute: UIRouter.Router.generateRoute,
+        initialRoute: HomeScreen.RouteName);
   }
 }

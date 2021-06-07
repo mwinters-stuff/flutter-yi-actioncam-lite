@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
-import 'package:flutterYiActionCameraLite/core/model/types/types.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/types/types.dart';
 import 'package:provider/provider.dart';
 
 class Sharpness {
@@ -32,12 +32,7 @@ class Sharpness {
   static const Sharpness Medium = Sharpness._('medium');
   static const Sharpness High = Sharpness._('high');
 
-  static const listItems = <Sharpness>[
-    Unknown,
-    Low,
-    Medium,
-    High
-  ];
+  static const listItems = <Sharpness>[Unknown, Low, Medium, High];
 
   static Widget getWidget(VideoOrPhoto usage) => _Widget(usage);
 }
@@ -51,29 +46,28 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
         builder: (context, settings, widget) => ListTile(
-          title: Text(
-              (_usage == VideoOrPhoto.video ? 'Video' : 'Photo') + ' Sharpness'),
-          trailing: DropdownButton<Sharpness>(
-            value: (_usage == VideoOrPhoto.video
-                ? settings.videoSharpness
-                : settings.photoSharpness),
-            items: Sharpness.listItems
-                .map((Sharpness value) => DropdownMenuItem<Sharpness>(
-                value: value, child: Text(value.toString())))
-                .toList(),
-            onChanged: (Sharpness newValue) {
-              switch (_usage) {
-                case VideoOrPhoto.photo:
-                  settings.photoSharpness = newValue;
-                  break;
-                case VideoOrPhoto.video:
-                  settings.videoSharpness = newValue;
-                  break;
-              }
-              settings.changed();
-            },
-          ),
-        ));
+              title: Text((_usage == VideoOrPhoto.video ? 'Video' : 'Photo') +
+                  ' Sharpness'),
+              trailing: DropdownButton<Sharpness>(
+                value: (_usage == VideoOrPhoto.video
+                    ? settings.videoSharpness
+                    : settings.photoSharpness),
+                items: Sharpness.listItems
+                    .map((Sharpness value) => DropdownMenuItem<Sharpness>(
+                        value: value, child: Text(value.toString())))
+                    .toList(),
+                onChanged: (Sharpness newValue) {
+                  switch (_usage) {
+                    case VideoOrPhoto.photo:
+                      settings.photoSharpness = newValue;
+                      break;
+                    case VideoOrPhoto.video:
+                      settings.videoSharpness = newValue;
+                      break;
+                  }
+                  settings.changed();
+                },
+              ),
+            ));
   }
 }
-

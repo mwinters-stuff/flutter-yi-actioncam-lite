@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class TimeLapseVideoInterval {
@@ -33,7 +33,8 @@ class TimeLapseVideoInterval {
     }
   }
 
-  static const TimeLapseVideoInterval Unknown = TimeLapseVideoInterval._('Unknown');
+  static const TimeLapseVideoInterval Unknown =
+      TimeLapseVideoInterval._('Unknown');
   static const TimeLapseVideoInterval t_0_5s = TimeLapseVideoInterval._('0.5');
   static const TimeLapseVideoInterval t_1s = TimeLapseVideoInterval._('1');
   static const TimeLapseVideoInterval t_2s = TimeLapseVideoInterval._('2');
@@ -65,7 +66,9 @@ class _Widget extends StatelessWidget {
               trailing: DropdownButton<TimeLapseVideoInterval>(
                 value: settings.timeLapseVideoInterval,
                 items: TimeLapseVideoInterval.listItems
-                    .map((TimeLapseVideoInterval value) => DropdownMenuItem<TimeLapseVideoInterval>(value: value, child: Text(value.toString())))
+                    .map((TimeLapseVideoInterval value) =>
+                        DropdownMenuItem<TimeLapseVideoInterval>(
+                            value: value, child: Text(value.toString())))
                     .toList(),
                 onChanged: (TimeLapseVideoInterval newValue) {
                   settings.timeLapseVideoInterval = newValue;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class LEDMode {
@@ -30,8 +30,7 @@ class LEDMode {
   static const LEDMode AllOff = LEDMode._('all disable');
   static const LEDMode StatusLightOnly = LEDMode._('status enable');
 
-  static const listItems = <LEDMode>[
-    Unknown,AllOn, AllOff, StatusLightOnly];
+  static const listItems = <LEDMode>[Unknown, AllOn, AllOff, StatusLightOnly];
 
   static Widget getWidget() => _Widget();
 }

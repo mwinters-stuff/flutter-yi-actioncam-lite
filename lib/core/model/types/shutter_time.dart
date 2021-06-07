@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterYiActionCameraLite/core/model/camera_commands/camera_commands.dart';
+import 'package:flutter_yi_actioncam_lite/core/model/camera_commands/camera_commands.dart';
 import 'package:provider/provider.dart';
 
 class ShutterTime {
@@ -40,12 +40,15 @@ class ShutterTime {
   static const ShutterTime st_20s = ShutterTime._('20s');
   static const ShutterTime st_30s = ShutterTime._('30s');
 
-  static const listItems = <ShutterTime>[Unknown,
-    st_Auto, st_2s,
+  static const listItems = <ShutterTime>[
+    Unknown,
+    st_Auto,
+    st_2s,
     st_5s,
     st_10s,
     st_20s,
-    st_30s];
+    st_30s
+  ];
 
   static Widget getWidget() => _Widget();
 }
@@ -54,14 +57,12 @@ class _Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActionCameraSettings>(
-        builder: (context, settings, widget) =>
-            ListTile(
+        builder: (context, settings, widget) => ListTile(
               title: Text('Shutter Time'),
               trailing: DropdownButton<ShutterTime>(
                 value: settings.photoShutterTime,
                 items: ShutterTime.listItems
-                    .map((ShutterTime value) =>
-                    DropdownMenuItem<ShutterTime>(
+                    .map((ShutterTime value) => DropdownMenuItem<ShutterTime>(
                         value: value, child: Text(value.toString())))
                     .toList(),
                 onChanged: (ShutterTime newValue) {
@@ -72,4 +73,3 @@ class _Widget extends StatelessWidget {
             ));
   }
 }
-
